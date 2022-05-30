@@ -1,6 +1,5 @@
 import { Router, Request, Response } from 'express';
-import axios from 'axios';
-import * as fs from 'fs';
+import fetchRepos from '../helpers/helpers';
 
 export const repos = Router();
 
@@ -13,25 +12,5 @@ repos.get('/', async (_: Request, res: Response) => {
   const remoteRepoUrl: string = 'https://api.github.com/users/silverorange/repos';
   const localRepoUrl: string = 'data/repos.json';
 
-  let forklessRepos;
-
-  await axios.get(remoteRepoUrl).then((r) => {
-    forklessRepos = r.data.filter(
-      (repo: Record<string, unknown>) => !repo.fork
-    );
-  });
-
-  await fs.readFile(localRepoUrl, 'utf8', (err, data) => {
-    if (err) {
-      console.error(err);
-      return;
-    }
-    console.log(data);
-  });
-
-  // await(URL, (err: string, body: string) => {
-  //   console.log(body);
-  // });
-
-  res.json([forklessRepos]);
+  res.json(await fetchRepos(remoteRepoUrl, localRepoUrl));
 });
