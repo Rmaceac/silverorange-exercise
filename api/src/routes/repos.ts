@@ -12,5 +12,7 @@ repos.get('/', async (_: Request, res: Response) => {
   const remoteRepoUrl: string = 'https://api.github.com/users/silverorange/repos';
   const localRepoUrl: string = 'data/repos.json';
 
-  res.json(await fetchRepos(remoteRepoUrl, localRepoUrl));
+  const reposArray = fetchRepos(remoteRepoUrl, localRepoUrl);
+
+  res.json(reposArray);
 });
