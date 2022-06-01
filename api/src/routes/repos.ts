@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import fetchRepos from '../helpers/helpers';
+import fetchData from '../helpers/helpers';
 
 export const repos = Router();
 
@@ -12,7 +12,7 @@ repos.get('/', async (_: Request, res: Response) => {
   const remoteRepoUrl: string = 'https://api.github.com/users/silverorange/repos';
   const localRepoUrl: string = 'data/repos.json';
 
-  const reposArray = fetchRepos(remoteRepoUrl, localRepoUrl);
+  const reposArray = await fetchData(remoteRepoUrl, localRepoUrl);
 
   res.json(reposArray);
 });
