@@ -1,15 +1,15 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const Repo = () => {
-  // const [repos, setRepos] = useState();
+const Repos = () => {
+  const [repos, setRepos] = useState();
 
   useEffect(() => {
     axios
       .get(`http://localhost:4000/repos`)
       .then((res) => {
         console.log('Response:', res.data);
-        // setRepos(...res);
+        setRepos(...res);
       })
       .catch((err) => {
         console.log('Error:', err);
@@ -19,7 +19,12 @@ const Repo = () => {
     };
   }, []);
 
-  return <h1>Repos!</h1>;
+  return (
+    <>
+      <h1>Repos!</h1>
+      <div>{repos}</div>
+    </>
+  );
 };
 
-export default Repo;
+export default Repos;

@@ -1,10 +1,10 @@
 import './App.css';
-import Repo from './components/Repo';
+import Repos from './components/Repos';
 
 export function App() {
   return (
     <div className="App">
-      <Repo />
+      <Repos />
     </div>
   );
 }
