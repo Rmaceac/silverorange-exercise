@@ -1,10 +1,12 @@
 import { useEffect } from 'react';
 
-export default function Repo() {
+const Repo = () => {
   useEffect(() => {
     // effect
     return () => {
       // cleanup
     };
   }, []);
-}
+};
+
+export default Repo;
