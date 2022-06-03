@@ -6,9 +6,9 @@ const Repo = () => {
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_BASE_URL}/repos`)
+      .get(`http://localhost:4000/repos`)
       .then((res) => {
-        console.log('Response:', res);
+        console.log('Response:', res.data);
         // setRepos(...res);
       })
       .catch((err) => {
