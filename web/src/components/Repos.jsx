@@ -18,7 +18,12 @@ const Repos = () => {
       axios
         .get(`http://localhost:4000/repos`)
         .then((res) => {
-          setRepos(res.data);
+          const sortedRepos = res.data.sort((a, b) => {
+            const date1 = new Date(a.created_at);
+            const date2 = new Date(b.created_at);
+            return date2 - date1;
+          });
+          setRepos(sortedRepos);
           // console.log('Repos:', repos);
         })
         .catch((err) => {
@@ -36,6 +41,7 @@ const Repos = () => {
           <TableHead>
             <TableRow>
               <TableCell>Repository</TableCell>
+              <TableCell align="right">Created</TableCell>
               <TableCell align="right">Description</TableCell>
               <TableCell align="right">Language</TableCell>
               <TableCell align="right">Forks</TableCell>
@@ -47,6 +53,7 @@ const Repos = () => {
                 <TableCell component="th" scope="row">
                   {repo.name}
                 </TableCell>
+                <TableCell align="right">{repo.created_at}</TableCell>
                 <TableCell align="right">{repo.description}</TableCell>
                 <TableCell align="right">{repo.language}</TableCell>
                 <TableCell align="right">{repo.forks}</TableCell>
