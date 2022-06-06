@@ -22,7 +22,7 @@ const Repos = () => {
   return (
     <>
       <h1>Repos!</h1>
-      <div>{repos}</div>
+      <TableContainer></TableContainer>
     </>
   );
 };
