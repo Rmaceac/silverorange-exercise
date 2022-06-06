@@ -16,7 +16,7 @@ repos.get('/', async (_: Request, res: Response) => {
   const reposArray = await fetchData(remoteRepoUrl, localRepoUrl).catch(
     (err) => {
       // eslint-disable-next-line no-console
-      console.log('Error:', err);
+      console.error(err);
     }
   );
 
