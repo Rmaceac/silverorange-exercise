@@ -24,14 +24,13 @@ const Repos = () => {
             return date2 - date1;
           });
           setRepos(sortedRepos);
-          // console.log('Repos:', repos);
         })
         .catch((err) => {
           console.error(err);
         });
     };
     fetchRepos();
-  });
+  }, []);
 
   return (
     <>
