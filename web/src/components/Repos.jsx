@@ -27,7 +27,7 @@ const Repos = () => {
         });
     };
     fetchRepos();
-  }, [repos]);
+  });
 
   return (
     <>
