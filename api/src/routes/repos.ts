@@ -9,7 +9,8 @@ repos.get('/', async (_: Request, res: Response) => {
   res.status(200);
 
   // TODO: See README.md Task (A). Return repo data here. You’ve got this!
-  const remoteRepoUrl: string = 'https://api.github.com/users/silverorange/repos';
+  const remoteRepoUrl: string =
+    'https://api.github.com/users/silverorange/repos';
   const localRepoUrl: string = 'data/repos.json';
 
   const reposArray = await fetchData(remoteRepoUrl, localRepoUrl);

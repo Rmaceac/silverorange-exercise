@@ -6,6 +6,7 @@ import {
   TableHead,
   TableRow,
   TableCell,
+  TableBody,
   Paper,
 } from '@mui/material';
 
@@ -13,16 +14,19 @@ const Repos = () => {
   const [repos, setRepos] = useState([]);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:4000/repos`)
-      .then((res) => {
-        // console.log('Response:', res.data);
-        setRepos(...res.data);
-        console.log('Repos:', repos);
-      })
-      .catch((err) => {
-        console.log('Error:', err);
-      });
+    const fetchRepos = () => {
+      axios
+        .get(`http://localhost:4000/repos`)
+        .then((res) => {
+          // console.log('Response:', res.data);
+          setRepos(...res.data);
+          console.log('Repos:', repos);
+        })
+        .catch((err) => {
+          console.log('Error:', err);
+        });
+    };
+    fetchRepos();
   }, [repos]);
 
   return (
@@ -38,6 +42,18 @@ const Repos = () => {
               <TableCell align="right">Forks</TableCell>
             </TableRow>
           </TableHead>
+          <TableBody>
+            {repos.map((repo) => (
+              <TableRow key={repo.id}>
+                <TableCell component="th" scope="row">
+                  {repo.name}
+                </TableCell>
+                <TableCell align="right">{repo.description}</TableCell>
+                <TableCell align="right">{repo.language}</TableCell>
+                <TableCell align="right">{repo.forks}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
         </Table>
       </TableContainer>
     </>
