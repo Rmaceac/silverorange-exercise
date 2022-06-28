@@ -9,6 +9,10 @@ import {
   TableBody,
   Paper,
   Link,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from '@mui/material';
 
 const Repos = () => {
@@ -36,6 +40,21 @@ const Repos = () => {
   return (
     <>
       <h1>Repos!</h1>
+      <FormControl fullWidth="true">
+        <InputLabel id="demo-simple-select-label">Language</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value="language"
+          label="Language"
+          // onChange=""
+        >
+          <MenuItem value="PHP">PHP</MenuItem>
+          <MenuItem value="Typescript">Typescript</MenuItem>
+          <MenuItem value="English">English</MenuItem>
+          <MenuItem value="French">French</MenuItem>
+        </Select>
+      </FormControl>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
