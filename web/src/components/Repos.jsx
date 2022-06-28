@@ -8,6 +8,7 @@ import {
   TableCell,
   TableBody,
   Paper,
+  Link,
 } from '@mui/material';
 
 const Repos = () => {
@@ -50,7 +51,9 @@ const Repos = () => {
             {repos.map((repo) => (
               <TableRow key={repo.id}>
                 <TableCell component="th" scope="row">
-                  {repo.name}
+                  <Link href={repo.html_url} underline="hover">
+                    {repo.name}
+                  </Link>
                 </TableCell>
                 <TableCell align="right">{repo.created_at}</TableCell>
                 <TableCell align="right">{repo.description}</TableCell>
