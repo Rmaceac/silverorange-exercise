@@ -60,6 +60,9 @@ const Repos = () => {
           label="Language"
           onChange={handleChange}
         >
+          <MenuItem key={uuidv4()} value="All">
+            All
+          </MenuItem>
           {uniqueLanguages.map((language) => (
             <MenuItem key={uuidv4()} value={language}>
               {language}
