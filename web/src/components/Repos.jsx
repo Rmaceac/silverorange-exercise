@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
 import {
   TableContainer,
   Table,
@@ -17,6 +18,12 @@ import {
 
 const Repos = () => {
   const [repos, setRepos] = useState([]);
+  const [filter, setFilter] = useState([]);
+
+  const repoLanguages = repos.map((repo) => {
+    return repo.language;
+  });
+  const uniqueLanguages = [...new Set(repoLanguages)];
 
   useEffect(() => {
     const fetchRepos = () => {
@@ -37,6 +44,10 @@ const Repos = () => {
     fetchRepos();
   }, []);
 
+  const handleChange = (event) => {
+    setFilter(event.target.value);
+  };
+
   return (
     <>
       <h1>Repos!</h1>
@@ -45,14 +56,15 @@ const Repos = () => {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value="language"
+          value={filter}
           label="Language"
-          // onChange=""
+          onChange={handleChange}
         >
-          <MenuItem value="PHP">PHP</MenuItem>
-          <MenuItem value="Typescript">Typescript</MenuItem>
-          <MenuItem value="English">English</MenuItem>
-          <MenuItem value="French">French</MenuItem>
+          {uniqueLanguages.map((language) => (
+            <MenuItem key={uuidv4()} value={language}>
+              {language}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
       <TableContainer component={Paper}>
