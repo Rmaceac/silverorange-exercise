@@ -1,6 +1,6 @@
 const filterRepos = (repos, property, filter) => {
   const filteredRepos = repos.map((repo) => {
-    if (repo.property === filter) {
+    if (property === filter) {
       return repo;
     }
   });

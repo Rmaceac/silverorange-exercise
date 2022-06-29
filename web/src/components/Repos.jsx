@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
+import { filterRepos } from '../../helper/filter.js';
 import {
   TableContainer,
   Table,
@@ -24,6 +25,8 @@ const Repos = () => {
     return repo.language;
   });
   const uniqueLanguages = [...new Set(repoLanguages)];
+
+  const filteredRepos = filterRepos(repos, repos.language, filter);
 
   useEffect(() => {
     const fetchRepos = () => {
@@ -82,23 +85,19 @@ const Repos = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {filter === 'All' && (
-              <>
-                {repos.map((repo) => (
-                  <TableRow key={repo.id}>
-                    <TableCell component="th" scope="row">
-                      <Link href={repo.html_url} underline="hover">
-                        {repo.name}
-                      </Link>
-                    </TableCell>
-                    <TableCell align="right">{repo.created_at}</TableCell>
-                    <TableCell align="right">{repo.description}</TableCell>
-                    <TableCell align="right">{repo.language}</TableCell>
-                    <TableCell align="right">{repo.forks}</TableCell>
-                  </TableRow>
-                ))}
-              </>
-            )}
+            {repos.map((repo) => (
+              <TableRow key={repo.id}>
+                <TableCell component="th" scope="row">
+                  <Link href={repo.html_url} underline="hover">
+                    {repo.name}
+                  </Link>
+                </TableCell>
+                <TableCell align="right">{repo.created_at}</TableCell>
+                <TableCell align="right">{repo.description}</TableCell>
+                <TableCell align="right">{repo.language}</TableCell>
+                <TableCell align="right">{repo.forks}</TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>
