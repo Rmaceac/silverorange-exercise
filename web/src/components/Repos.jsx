@@ -82,6 +82,7 @@ const Repos = () => {
             </TableRow>
           </TableHead>
           <TableBody>
+            {/* render ALL repos to table */}
             {filter === 'All' &&
               repos.map((repo) => (
                 <TableRow key={repo.id}>
@@ -96,6 +97,7 @@ const Repos = () => {
                   <TableCell align="right">{repo.forks}</TableCell>
                 </TableRow>
               ))}
+            {/* render repos based on language */}
             {filter !== 'All' && (
               <>
                 {repos
