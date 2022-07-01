@@ -18,7 +18,7 @@ import {
 
 const Repos = (props) => {
   const { repos } = props;
-  const [filter, setFilter] = useState(['All']);
+  const [filter, setFilter] = useState('All');
 
   const repoLanguages = repos.map((repo) => {
     return repo.language;
