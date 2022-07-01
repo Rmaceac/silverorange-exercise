@@ -14,11 +14,13 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Backdrop,
 } from '@mui/material';
 
 const Repos = (props) => {
   const { repos } = props;
   const [filter, setFilter] = useState('All');
+  const [openBackdrop, setOpenBackdrop] = useState(false);
 
   const repoLanguages = repos.map((repo) => {
     return repo.language;
@@ -27,6 +29,14 @@ const Repos = (props) => {
 
   const handleChange = (event) => {
     setFilter(event.target.value);
+  };
+
+  const handleClose = () => {
+    setOpenBackdrop(false);
+  };
+
+  const handleToggle = () => {
+    setOpenBackdrop(!openBackdrop);
   };
 
   return (
@@ -68,7 +78,7 @@ const Repos = (props) => {
               repos.map((repo) => (
                 <TableRow key={repo.id}>
                   <TableCell component="th" scope="row">
-                    <Link href={repo.html_url} underline="hover">
+                    <Link onClick={handleToggle} underline="hover">
                       {repo.name}
                     </Link>
                   </TableCell>
@@ -86,7 +96,7 @@ const Repos = (props) => {
                   .map((repo) => (
                     <TableRow key={repo.id}>
                       <TableCell component="th" scope="row">
-                        <Link href={repo.html_url} underline="hover">
+                        <Link onClick={handleToggle} underline="hover">
                           {repo.name}
                         </Link>
                       </TableCell>
@@ -101,6 +111,15 @@ const Repos = (props) => {
           </TableBody>
         </Table>
       </TableContainer>
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={openBackdrop}
+        onClick={handleClose}
+      >
+        {/* <Card className='repo-info-card' sx={{ maxWidth: 345 }}>
+          
+        </Card> */}
+      </Backdrop>
     </>
   );
 };
