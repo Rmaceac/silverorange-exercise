@@ -22,7 +22,3 @@ repos.get('/', async (_: Request, res: Response) => {
 
   res.json(reposArray);
 });
-
-// repos.get('/:id', async (_: Request, res: Response) => {
-
-// });
