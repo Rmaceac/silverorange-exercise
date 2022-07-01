@@ -1,6 +1,5 @@
 import './App.css';
 import Repos from './components/Repos';
-import Repo from './components/Repo';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -27,7 +26,6 @@ export function App() {
   return (
     <div className="App">
       <Repos repos={repos} />
-      <Repo />
     </div>
   );
 }
