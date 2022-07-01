@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
-// import { filterRepos } from '../helpers/filter';
 import {
   TableContainer,
   Table,
@@ -25,9 +24,6 @@ const Repos = () => {
     return repo.language;
   });
   const uniqueLanguages = [...new Set(repoLanguages)];
-
-  // const filteredRepos = filterRepos(repos, repos.language, filter);
-  // console.log('FILTERED REPOS:', filteredRepos);
 
   useEffect(() => {
     const fetchRepos = () => {
