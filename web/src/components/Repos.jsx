@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useState } from 'react';
+// for generating random keys
 import { v4 as uuidv4 } from 'uuid';
 import {
   TableContainer,
@@ -16,33 +16,14 @@ import {
   MenuItem,
 } from '@mui/material';
 
-const Repos = () => {
-  const [repos, setRepos] = useState([]);
+const Repos = (props) => {
+  const { repos } = props;
   const [filter, setFilter] = useState(['All']);
 
   const repoLanguages = repos.map((repo) => {
     return repo.language;
   });
   const uniqueLanguages = [...new Set(repoLanguages)];
-
-  useEffect(() => {
-    const fetchRepos = () => {
-      axios
-        .get(`http://localhost:4000/repos`)
-        .then((res) => {
-          const sortedRepos = res.data.sort((a, b) => {
-            const date1 = new Date(a.created_at);
-            const date2 = new Date(b.created_at);
-            return date2 - date1;
-          });
-          setRepos(sortedRepos);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    };
-    fetchRepos();
-  }, []);
 
   const handleChange = (event) => {
     setFilter(event.target.value);
@@ -97,7 +78,7 @@ const Repos = () => {
                   <TableCell align="right">{repo.forks}</TableCell>
                 </TableRow>
               ))}
-            {/* render repos based on language */}
+            {/* render repos based on language chosen */}
             {filter !== 'All' && (
               <>
                 {repos
