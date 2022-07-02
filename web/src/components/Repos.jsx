@@ -15,6 +15,9 @@ import {
   Select,
   MenuItem,
   Backdrop,
+  Card,
+  CardContent,
+  Typography,
 } from '@mui/material';
 
 const Repos = (props) => {
@@ -35,7 +38,7 @@ const Repos = (props) => {
     setOpenBackdrop(false);
   };
 
-  const handleToggle = () => {
+  const handleToggle = (e) => {
     setOpenBackdrop(!openBackdrop);
   };
 
@@ -116,9 +119,11 @@ const Repos = (props) => {
         open={openBackdrop}
         onClick={handleClose}
       >
-        {/* <Card className='repo-info-card' sx={{ maxWidth: 345 }}>
-          
-        </Card> */}
+          <Card className="repo-info-card" sx={{ maxWidth: 345 }}>
+            <CardContent>
+              <Typography variant="h4">Repo</Typography>
+            </CardContent>
+          </Card>
       </Backdrop>
     </>
   );
