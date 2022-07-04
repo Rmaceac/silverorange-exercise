@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import axios from 'axios';
 // for generating random keys
 import { v4 as uuidv4 } from 'uuid';
 import {
@@ -17,6 +18,7 @@ import {
   Backdrop,
   Card,
   CardContent,
+  CircularProgress,
 } from '@mui/material';
 
 const Repos = (props) => {
@@ -24,8 +26,15 @@ const Repos = (props) => {
   const [filter, setFilter] = useState('All');
   const [openBackdrop, setOpenBackdrop] = useState(false);
   const [currentRepo, setCurrentRepo] = useState();
+  const [loading] = useState(true);
 
-  // const markdown = "https://raw.githubusercontent.com/silverorange/accessible-google-places-autocomplete/master/README.md"
+  async function fetchCommits(repo) {
+    // const commitsURL = `https://api.github.com/repos/silverorange/${repo.name}}/commits`;
+    const commitsURL =
+      'https://api.github.com/repos/silverorange/accessible-google-places-autocomplete/commits';
+    const commits = await axios.get(commitsURL);
+    console.log('COMMITS:', commits.data[0]);
+  }
 
   const repoLanguages = repos.map((repo) => {
     return repo.language;
@@ -43,15 +52,7 @@ const Repos = (props) => {
   const handleToggle = (e) => {
     setOpenBackdrop(!openBackdrop);
     setCurrentRepo(repos.filter((repo) => repo.name === e.target.text));
-    fetch(
-      'https://api.github.com/repos/silverorange/accessible-google-places-autocomplete/commits'
-    )
-      .then((res) => {
-        console.log(res.json());
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    fetchCommits(currentRepo);
   };
 
   return (
@@ -131,15 +132,21 @@ const Repos = (props) => {
         open={openBackdrop}
         onClick={handleClose}
       >
-        <Card className="repo-info-card" sx={{ maxWidth: 4 / 5 }}>
-          <CardContent>
-            <TableContainer>
-              <Table>
-                <TableBody>
-                  {currentRepo &&
-                    currentRepo.map((repo) => (
+        {loading && <CircularProgress />}
+        {currentRepo &&
+          !loading &&
+          currentRepo.map((repo) => (
+            <Card
+              key={repo.id}
+              className="repo-info-card"
+              sx={{ maxWidth: 4 / 5 }}
+            >
+              <CardContent>
+                <TableContainer>
+                  <Table>
+                    <TableBody>
                       <>
-                        <TableRow key={repo.id}>
+                        <TableRow>
                           <TableCell component="th" scope="row">
                             Repo Name
                           </TableCell>
@@ -167,12 +174,12 @@ const Repos = (props) => {
                           </TableCell>
                         </TableRow>
                       </>
-                    ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </CardContent>
-        </Card>
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </CardContent>
+            </Card>
+          ))}
       </Backdrop>
     </>
   );
