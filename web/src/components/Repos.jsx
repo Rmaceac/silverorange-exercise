@@ -25,6 +25,8 @@ const Repos = (props) => {
   const [openBackdrop, setOpenBackdrop] = useState(false);
   const [currentRepo, setCurrentRepo] = useState();
 
+  // const markdown = "https://raw.githubusercontent.com/silverorange/accessible-google-places-autocomplete/master/README.md"
+
   const repoLanguages = repos.map((repo) => {
     return repo.language;
   });
@@ -40,7 +42,16 @@ const Repos = (props) => {
 
   const handleToggle = (e) => {
     setOpenBackdrop(!openBackdrop);
-    setCurrentRepo(e.target.text);
+    setCurrentRepo(repos.filter((repo) => repo.name === e.target.text));
+    fetch(
+      'https://api.github.com/repos/silverorange/accessible-google-places-autocomplete/commits'
+    )
+      .then((res) => {
+        console.log(res.json());
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   return (
@@ -120,19 +131,42 @@ const Repos = (props) => {
         open={openBackdrop}
         onClick={handleClose}
       >
-        <Card className="repo-info-card" sx={{ maxWidth: 345 }}>
+        <Card className="repo-info-card" sx={{ maxWidth: 4 / 5 }}>
           <CardContent>
             <TableContainer>
               <Table>
                 <TableBody>
-                  {repos
-                    .filter((repo) => repo.name === currentRepo)
-                    .map((repo) => (
-                      <TableRow key={repo.id}>
-                        <TableCell component="th" scope="row">
-                          {repo.name}
-                        </TableCell>
-                      </TableRow>
+                  {currentRepo &&
+                    currentRepo.map((repo) => (
+                      <>
+                        <TableRow key={repo.id}>
+                          <TableCell component="th" scope="row">
+                            Repo Name
+                          </TableCell>
+                          <TableCell align="right">Last Commit</TableCell>
+                          <TableCell align="right">Author</TableCell>
+                          <TableCell align="right">Message</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell component="th" scope="row">
+                            {repo.name}
+                          </TableCell>
+                          <TableCell align="right">commit goes here</TableCell>
+                          <TableCell align="right">Author goes here</TableCell>
+                          <TableCell align="right">Message goes here</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell align="center" colSpan={4}>
+                            README:
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell align="center" colSpan={4}>
+                            https://raw.githubusercontent.com/{repo.full_name}
+                            /master/README.md
+                          </TableCell>
+                        </TableRow>
+                      </>
                     ))}
                 </TableBody>
               </Table>
