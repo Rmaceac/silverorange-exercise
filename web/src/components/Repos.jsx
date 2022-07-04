@@ -17,13 +17,13 @@ import {
   Backdrop,
   Card,
   CardContent,
-  Typography,
 } from '@mui/material';
 
 const Repos = (props) => {
   const { repos } = props;
   const [filter, setFilter] = useState('All');
   const [openBackdrop, setOpenBackdrop] = useState(false);
+  const [currentRepo, setCurrentRepo] = useState();
 
   const repoLanguages = repos.map((repo) => {
     return repo.language;
@@ -40,6 +40,7 @@ const Repos = (props) => {
 
   const handleToggle = (e) => {
     setOpenBackdrop(!openBackdrop);
+    setCurrentRepo(e.target.text);
   };
 
   return (
@@ -119,11 +120,25 @@ const Repos = (props) => {
         open={openBackdrop}
         onClick={handleClose}
       >
-          <Card className="repo-info-card" sx={{ maxWidth: 345 }}>
-            <CardContent>
-              <Typography variant="h4">Repo</Typography>
-            </CardContent>
-          </Card>
+        <Card className="repo-info-card" sx={{ maxWidth: 345 }}>
+          <CardContent>
+            <TableContainer>
+              <Table>
+                <TableBody>
+                  {repos
+                    .filter((repo) => repo.name === currentRepo)
+                    .map((repo) => (
+                      <TableRow key={repo.id}>
+                        <TableCell component="th" scope="row">
+                          {repo.name}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </CardContent>
+        </Card>
       </Backdrop>
     </>
   );
