@@ -26,14 +26,20 @@ const Repos = (props) => {
   const [filter, setFilter] = useState('All');
   const [openBackdrop, setOpenBackdrop] = useState(false);
   const [currentRepo, setCurrentRepo] = useState();
-  const [loading] = useState(true);
+  const [currentRepoInfo, setCurrentRepoInfo] = useState();
+  const [loading, setLoading] = useState(true);
 
   async function fetchCommits(repo) {
-    // const commitsURL = `https://api.github.com/repos/silverorange/${repo.name}}/commits`;
-    const commitsURL =
-      'https://api.github.com/repos/silverorange/accessible-google-places-autocomplete/commits';
+    // console.log('REPO:', repo);
+    const commitsURL = `https://api.github.com/repos/silverorange/${repo[0].name}/commits`;
     const commits = await axios.get(commitsURL);
-    console.log('COMMITS:', commits.data[0]);
+    const latestCommit = commits.data[0];
+    const commitInfo = [
+      latestCommit.commit.author.date,
+      latestCommit.commit.author.name,
+      latestCommit.commit.message,
+    ];
+    return commitInfo;
   }
 
   const repoLanguages = repos.map((repo) => {
@@ -50,9 +56,12 @@ const Repos = (props) => {
   };
 
   const handleToggle = (e) => {
-    setOpenBackdrop(!openBackdrop);
+    setOpenBackdrop(true);
     setCurrentRepo(repos.filter((repo) => repo.name === e.target.text));
-    fetchCommits(currentRepo);
+    fetchCommits(currentRepo).then((data) => {
+      setCurrentRepoInfo(data);
+      setLoading(false);
+    });
   };
 
   return (
@@ -133,8 +142,8 @@ const Repos = (props) => {
         onClick={handleClose}
       >
         {loading && <CircularProgress />}
-        {currentRepo &&
-          !loading &&
+        {!loading &&
+          currentRepoInfo &&
           currentRepo.map((repo) => (
             <Card
               key={repo.id}
@@ -158,9 +167,15 @@ const Repos = (props) => {
                           <TableCell component="th" scope="row">
                             {repo.name}
                           </TableCell>
-                          <TableCell align="right">commit goes here</TableCell>
-                          <TableCell align="right">Author goes here</TableCell>
-                          <TableCell align="right">Message goes here</TableCell>
+                          <TableCell align="right">
+                            {currentRepoInfo[0]}
+                          </TableCell>
+                          <TableCell align="right">
+                            {currentRepoInfo[1]}
+                          </TableCell>
+                          <TableCell align="right">
+                            {currentRepoInfo[2]}
+                          </TableCell>
                         </TableRow>
                         <TableRow>
                           <TableCell align="center" colSpan={4}>
